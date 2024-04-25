@@ -1,0 +1,19 @@
+mdp
+
+module AmryRetentionPolicy
+
+    g : [0..5] init 0;
+    t : [0..39] init 0;
+    s : [0..1] init 0;
+
+    [stay] (s != 1) & (g!=5) & (t!=39) -> 0.4 : (g' = g+1) & (t' = t+1) + 0.3 : (t' = t+1) + 0.3 : (s' = 1);
+    [stay] (s != 1) & (g=5) & (t!=39) -> 0.5 : (t'=t+1) + 0.5: (s'=1);
+    [leave] (s != 1) -> (s'=1);
+    [] (s=1) -> true;
+
+endmodule
+
+rewards "money"
+    [stay] true : 100;
+    [leave] true : 20;
+endrewards
